@@ -5,8 +5,11 @@
 
 #include "LowPower.h"
 
+const int LED     = 13; 
 const int pingPin = 7; // Trigger Pin of Ultrasonic Sensor
 const int echoPin = 6; // Echo Pin of Ultrasonic Sensor
+
+// #define DEBUG
 
 long microsecondsToInches(long microseconds) {
    return microseconds / 74 / 2;
@@ -17,11 +20,17 @@ long microsecondsToCentimeters(long microseconds) {
 }
 
 void setup() {
+#ifdef DEBUG
   Serial.begin(115200);
   Serial.println("ELWireProximityController setup");
+ajlsdkjf;
+#endif
+  pinMode(LED,OUTPUT);
+  LowPower.idle(SLEEP_2S, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_OFF, SPI_OFF, USART0_OFF, TWI_OFF);
 }
 
 void loop() {
+/*
    long duration, inches, cm;
    pinMode(pingPin, OUTPUT);
    digitalWrite(pingPin, LOW);
@@ -38,6 +47,8 @@ void loop() {
    Serial.print(cm);
    Serial.print("cm");
    Serial.println();
-   LowPower.powerDown(SLEEP_1S, ADC_OFF, BOD_OFF);   // need to turn off uart also
+*/
+  digitalWrite(LED,!digitalRead(LED));
+  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
 }
 
