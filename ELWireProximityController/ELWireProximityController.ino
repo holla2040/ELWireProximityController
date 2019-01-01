@@ -6,7 +6,7 @@
 // distance in inches
 
 #define POWERSAVE 
-// #define DEBUG
+#define DEBUG
 
 #ifdef POWERSAVE
 #include "LowPower.h"
@@ -21,7 +21,7 @@ const int sensorPowerPin2 =  8;
 const int sensorPowerPin3 =  7;
 const int sensorPowerPin4 =  6;
 
-const int distanceLimit   = 50;
+const int distanceLimit   = 100;
 
 long microsecondsToInches(long microseconds) {
    return (microseconds/2) / 74;
