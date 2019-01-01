@@ -25,6 +25,11 @@ include ./Arduino.mk
 ARDUINO_LIBS            = Stepper/src
                                             
 
+flash:
+	- pkill -9 -f microcom
+	make raw_upload
+	- pkill -9 -f sleep
+
 runold:	reset all raw_upload
 	make con
 

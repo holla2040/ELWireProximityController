@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -139,8 +139,8 @@
 <layer number="195" name="mNames" color="7" fill="1" visible="no" active="no"/>
 <layer number="196" name="mValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="200" name="200bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="201" name="201bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="200" name="200bmp" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="201" name="201bmp" color="2" fill="10" visible="yes" active="yes"/>
 <layer number="202" name="202bmp" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="203" name="203bmp" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="204" name="204bmp" color="7" fill="1" visible="yes" active="yes"/>
@@ -809,24 +809,43 @@ http://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/&lt;
 <part name="Q1" library="holla" deviceset="FET-NCH" device="-SOT23"/>
 <part name="FRAME1" library="holla" deviceset="FRAME_A_L" device=""/>
 <part name="U$1" library="Arduino-clone" deviceset="NANO" device=""/>
-<part name="U$2" library="diy-modules" deviceset="ULTRASONIC-HC-SR04" device=""/>
+<part name="SENSE1" library="diy-modules" deviceset="ULTRASONIC-HC-SR04" device=""/>
 <part name="BAT1" library="diy-modules" deviceset="BATTERY-HOLDER-2AA" device="" value="4AA"/>
 <part name="GND1" library="holla" deviceset="GND" device=""/>
 <part name="GND2" library="holla" deviceset="GND" device=""/>
+<part name="GND3" library="holla" deviceset="GND" device=""/>
+<part name="GND4" library="holla" deviceset="GND" device=""/>
+<part name="GND5" library="holla" deviceset="GND" device=""/>
+<part name="FRAME2" library="holla" deviceset="FRAME_A_L" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
+<text x="10.16" y="203.2" size="2.54" layer="97">VCC is 5.0V</text>
+<wire x1="111.76" y1="88.9" x2="111.76" y2="78.74" width="0.1524" layer="94"/>
+<wire x1="111.76" y1="78.74" x2="121.92" y2="78.74" width="0.1524" layer="94"/>
+<wire x1="121.92" y1="78.74" x2="121.92" y2="88.9" width="0.1524" layer="94"/>
+<wire x1="121.92" y1="88.9" x2="111.76" y2="88.9" width="0.1524" layer="94"/>
+<text x="117.094" y="83.566" size="1.778" layer="97" align="center">+
+HV
+PS
+-</text>
+<wire x1="134.62" y1="83.82" x2="157.48" y2="83.82" width="0.1524" layer="97"/>
+<text x="141.224" y="84.074" size="1.778" layer="97" font="vector">EL Wire</text>
 </plain>
 <instances>
-<instance part="Q1" gate="G$1" x="144.78" y="50.8"/>
-<instance part="FRAME1" gate="G$1" x="0" y="0"/>
+<instance part="Q1" gate="G$1" x="119.38" y="71.12" rot="MR0"/>
 <instance part="FRAME1" gate="G$2" x="172.72" y="0"/>
-<instance part="U$1" gate="G$1" x="96.52" y="58.42"/>
-<instance part="U$2" gate="G$1" x="182.88" y="81.28"/>
-<instance part="BAT1" gate="G$1" x="20.32" y="76.2"/>
-<instance part="GND1" gate="1" x="35.56" y="66.04"/>
-<instance part="GND2" gate="1" x="35.56" y="66.04"/>
+<instance part="U$1" gate="G$1" x="147.32" y="124.46"/>
+<instance part="SENSE1" gate="G$1" x="165.1" y="170.18"/>
+<instance part="BAT1" gate="G$1" x="73.66" y="96.52"/>
+<instance part="GND1" gate="1" x="88.9" y="86.36"/>
+<instance part="GND2" gate="1" x="88.9" y="86.36"/>
+<instance part="GND3" gate="1" x="124.46" y="106.68"/>
+<instance part="GND4" gate="1" x="170.18" y="149.86"/>
+<instance part="GND5" gate="1" x="116.84" y="66.04"/>
+<instance part="FRAME2" gate="G$1" x="0" y="0"/>
+<instance part="FRAME2" gate="G$2" x="172.72" y="0"/>
 </instances>
 <busses>
 </busses>
@@ -835,6 +854,80 @@ http://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/&lt;
 <segment>
 <pinref part="GND1" gate="1" pin="GND"/>
 <pinref part="GND2" gate="1" pin="GND"/>
+<pinref part="BAT1" gate="G$1" pin="BAT-"/>
+<wire x1="88.9" y1="88.9" x2="88.9" y2="86.36" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="GND"/>
+<pinref part="GND3" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="SENSE1" gate="G$1" pin="GND"/>
+<pinref part="GND4" gate="1" pin="GND"/>
+<wire x1="170.18" y1="149.86" x2="170.18" y2="154.94" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="Q1" gate="G$1" pin="S"/>
+<pinref part="GND5" gate="1" pin="GND"/>
+</segment>
+</net>
+<net name="VBATT" class="0">
+<segment>
+<pinref part="BAT1" gate="G$1" pin="BAT+"/>
+<pinref part="U$1" gate="G$1" pin="VIN"/>
+<wire x1="88.9" y1="104.14" x2="99.06" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="104.14" x2="116.84" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="104.14" x2="124.46" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="104.14" x2="99.06" y2="106.68" width="0.1524" layer="91"/>
+<label x="99.06" y="106.68" size="1.016" layer="95" rot="R90" xref="yes"/>
+<junction x="99.06" y="104.14"/>
+<wire x1="116.84" y1="104.14" x2="116.84" y2="88.9" width="0.1524" layer="91"/>
+<junction x="116.84" y="104.14"/>
+</segment>
+</net>
+<net name="N$2" class="0">
+<segment>
+<pinref part="SENSE1" gate="G$1" pin="TRIG"/>
+<wire x1="165.1" y1="154.94" x2="165.1" y2="139.7" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="D12"/>
+<wire x1="165.1" y1="139.7" x2="157.48" y2="139.7" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="SENSE1" gate="G$1" pin="ECHO"/>
+<wire x1="167.64" y1="154.94" x2="167.64" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="D11"/>
+<wire x1="167.64" y1="137.16" x2="157.48" y2="137.16" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="Q1" gate="G$1" pin="D"/>
+<wire x1="116.84" y1="78.74" x2="116.84" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="Q1" gate="G$1" pin="G"/>
+<wire x1="121.92" y1="68.58" x2="167.64" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="167.64" y1="68.58" x2="167.64" y2="134.62" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="D10"/>
+<wire x1="167.64" y1="134.62" x2="157.48" y2="134.62" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<wire x1="121.92" y1="83.82" x2="134.62" y2="83.82" width="0.1524" layer="91"/>
+<junction x="134.62" y="83.82"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="SENSE1" gate="G$1" pin="VCC"/>
+<pinref part="U$1" gate="G$1" pin="D9"/>
+<wire x1="162.56" y1="154.94" x2="162.56" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="162.56" y1="132.08" x2="157.48" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
@@ -842,4 +935,10 @@ http://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/&lt;
 </sheets>
 </schematic>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
