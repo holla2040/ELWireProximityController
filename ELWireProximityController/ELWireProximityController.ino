@@ -18,7 +18,10 @@ const int sensorPowerPin2 =  8;
 const int sensorPowerPin3 =  7;
 const int sensorPowerPin4 =  6;
 
-const int distanceLimit   = 50;
+const int distanceLimit   = 36;
+
+uint32_t timeout;
+const int TIMEOUTINTERVAL = 10000;
 
 long microsecondsToInches(long microseconds) {
    return (microseconds/2) / 74;
@@ -53,11 +56,9 @@ void sensorPower(bool e) {
 }
 
 void setup() {
-#ifdef DEBUG
   Serial.begin(115200);
   delay(10);
   Serial.println("\nELWireProximityController setup");
-#endif
 
   pinMode(trigPin,        OUTPUT); 
   pinMode(echoPin,        INPUT_PULLUP); 
@@ -80,7 +81,7 @@ long getDuration() {
     digitalWrite(trigPin, LOW);
     duration =  pulseIn(echoPin, HIGH, maxdur);
     if (duration == 0) duration = maxdur;
-#ifdef DEBUG
+#ifdef DEBUG1
     Serial.println(duration);
 #endif
     delay(15); // this is needed for sensor to reset
@@ -100,7 +101,7 @@ bool inRange() {
     duration += v;
   }
 
-#ifdef DEBUG
+#ifdef DEBUG1
   Serial.println(duration);
   Serial.println();
 #endif
@@ -108,7 +109,7 @@ bool inRange() {
   duration /= avecount;
   distance = microsecondsToInches(duration);
 
-#ifdef DEBUG
+#ifdef DEBUG1
   Serial.print(distance);
   Serial.print(" ");
   Serial.println(float(distance)/12.0);
@@ -122,16 +123,11 @@ bool inRange() {
 
 void loop() {
   if (inRange()) {
-#ifdef DEBUG
-    Serial.println("IN"); 
-#endif
+    timeout = millis() + TIMEOUTINTERVAL;
     digitalWrite(LED,HIGH); // LED ON 
-  } else {
-#ifdef DEBUG
-    Serial.println("OUT"); 
-#endif
-    digitalWrite(LED,HIGH); // quick blink
-    delay(1);
+  } 
+
+  if (millis() > timeout) {
     digitalWrite(LED,LOW); 
   }
 }
