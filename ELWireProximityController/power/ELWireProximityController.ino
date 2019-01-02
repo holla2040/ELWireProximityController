@@ -4,10 +4,13 @@
 */
 
 // distance in inches
-// using 4 arduino digital output for sensor power control, why 4?
-// to lower Vds on voltage
 
+#define POWERSAVE 
 #define DEBUG
+
+#ifdef POWERSAVE
+#include "LowPower.h"
+#endif
 
 const int LED             = 13; 
 const int trigPin         = 12; 
@@ -18,7 +21,7 @@ const int sensorPowerPin2 =  8;
 const int sensorPowerPin3 =  7;
 const int sensorPowerPin4 =  6;
 
-const int distanceLimit   = 50;
+const int distanceLimit   = 100;
 
 long microsecondsToInches(long microseconds) {
    return (microseconds/2) / 74;
@@ -68,7 +71,13 @@ void setup() {
   digitalWrite(hvEnablePin,   HIGH);
 
   sensorPower(true);
+
+#ifdef POWERSAVE
+  LowPower.idle(SLEEP_30MS, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_OFF, SPI_OFF, USART0_OFF, TWI_OFF);
+#endif
 }
+
+
 
 long getDuration() {
     const int maxdur = 20000;
@@ -87,10 +96,17 @@ long getDuration() {
     return duration;
 }
 
+
 bool inRange() {
   long distance,duration = 0;
   const int avecount = 5;
 
+#ifdef POWERSAVE
+  sensorPower(true);
+  delay(200); 
+#endif
+
+  // pitching the first 2 after power on
   getDuration();
   getDuration();
 
@@ -99,6 +115,10 @@ bool inRange() {
     v = getDuration();
     duration += v;
   }
+
+#ifdef POWERSAVE
+  sensorPower(false);
+#endif
 
 #ifdef DEBUG
   Serial.println(duration);
@@ -134,5 +154,14 @@ void loop() {
     delay(1);
     digitalWrite(LED,LOW); 
   }
+
+
+#ifdef POWERSAVE
+  delay(100); // serial flush time
+  // LowPower.idle(SLEEP_15MS, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_OFF, SPI_OFF, USART0_OFF, TWI_OFF);
+  LowPower.powerDown(SLEEP_2S, ADC_OFF, BOD_OFF);  
+#else
+  delay(1000);
+#endif
 }
 
